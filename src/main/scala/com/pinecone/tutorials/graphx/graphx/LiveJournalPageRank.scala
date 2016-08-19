@@ -16,7 +16,7 @@
  */
 
 // scalastyle:off println
-package com.pinecone.tutorials.graphx
+package com.pinecone.tutorials.graphx.graphx
 
 /**
  * Uses GraphX to run PageRank on a LiveJournal social network graph. Download the dataset from

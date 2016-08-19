@@ -1,4 +1,4 @@
-package com.pinecone.tutorials.graphx
+package com.pinecone.tutorials.graphx.graphx
 
 // import packages
 
@@ -11,7 +11,7 @@ import org.apache.spark.rdd.RDD
 
 // define the application 
 
-object graph5 extends App
+object graph3 extends App
 {
 
   // set up hdfs server and configuration
@@ -23,7 +23,7 @@ object graph5 extends App
   val edgeFile   = hdfsServer + hdfsPath + "graph1_edges.csv"
 
   val sparkMaster = "spark://hc2nn.semtech-solutions.co.nz:7077"
-  val appName = "Graph 5"
+  val appName = "Graph 3"
   val conf = new SparkConf()
 
   conf.setMaster(sparkMaster)
@@ -53,36 +53,27 @@ object graph5 extends App
 
   val graph = Graph(vertices, edges, default)
 
-  // lets get connected components 
+  // lets do a pagerank, measure the relative importance of vertices 
 
-  val iterations = 1000
+  val tolerance = 0.0001
 
-  val connected  = graph.connectedComponents().vertices
-  val connectedS = graph.stronglyConnectedComponents(iterations).vertices
+  val ranking = graph.pageRank(tolerance).vertices
 
   // join with the original graph vertices
 
-  val connByPerson = vertices.join(connected).map {
-    case (id, ( (person,age) , conn )) => (conn, id, person)
+  val rankByPerson = vertices.join(ranking).map {
+    case (id, ( (person,age) , rank )) => (rank, id, person)
   }
 
-  val connByPersonS = vertices.join(connectedS).map {
-    case (id, ( (person,age) , conn )) => (conn, id, person)
+  // Print the result
+
+  rankByPerson.collect().foreach {
+
+    case (rank, id, person) =>
+
+      println ( f"Rank $rank%1.2f id $id person $person")
+
   }
-
-
-  // print the result
-
-  connByPerson.collect().foreach {
-    case (conn, id, person) =>
-      println ( f"Weak $conn  $id $person" )
-  }
-
-  connByPersonS.collect().foreach {
-    case (conn, id, person) =>
-      println ( f"Strong $conn  $id $person" )
-  }
-
 
 
 } // end application

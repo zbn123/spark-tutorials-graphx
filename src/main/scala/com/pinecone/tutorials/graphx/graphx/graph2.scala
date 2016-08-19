@@ -1,4 +1,4 @@
-package com.pinecone.tutorials.graphx
+package com.pinecone.tutorials.graphx.graphx
 
 // import packages
 

@@ -1,13 +1,13 @@
-package com.pinecone.tutorials.graphx
+package com.pinecone.tutorials.graphx.graphx
 
 import org.apache.log4j.PropertyConfigurator
 import org.apache.spark.graphx.GraphLoader
 import org.apache.spark.{SparkConf, SparkContext}
 
 /**
-  * Created by leeivan on 8/16/16.
+  * Created by leeivan on 8/19/16.
   */
-object graph6 {
+object GraphPageRank {
 
   PropertyConfigurator.configure("conf/log4j.properties")
 
@@ -16,11 +16,10 @@ object graph6 {
       case x: Int if x > 0 => args(0)
       case _ => "local[4]"
     }
-    val sc = new SparkContext(new SparkConf().setMaster(master).setAppName("GraphAlgorithms"))
-
+    val sc = new SparkContext(new SparkConf().setMaster(master).setAppName("GraphPageRank"))
     // Load my user data and parse into tuples of user id and attribute list
     val users = (sc.textFile("files/users.txt")
-      .map(line => line.split(",")).map(parts => (parts.head.toLong, parts.tail)))
+      .map(line => line.split(",")).map( parts => (parts.head.toLong, parts.tail) ))
 
     // Parse the edge data which is already in userId -> userId format
     val followerGraph = GraphLoader.edgeListFile(sc, "files/followers.txt")

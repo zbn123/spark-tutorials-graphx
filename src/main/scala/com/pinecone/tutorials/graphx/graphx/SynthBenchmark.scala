@@ -16,7 +16,7 @@
  */
 
 // scalastyle:off println
-package com.pinecone.tutorials.graphx
+package com.pinecone.tutorials.graphx.graphx
 
 import org.apache.spark.SparkContext._
 import org.apache.spark.graphx.{GraphXUtils, PartitionStrategy}

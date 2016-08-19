@@ -1,4 +1,4 @@
-package com.pinecone.tutorials.graphx
+package com.pinecone.tutorials.graphx.graphx
 
 import org.apache.log4j.PropertyConfigurator
 import org.apache.spark.graphx.{Edge, Graph, GraphLoader}
